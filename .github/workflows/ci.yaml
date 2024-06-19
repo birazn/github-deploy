@@ -1,22 +1,28 @@
-name: Push-to-EC2
+name: Publicando minha imagem automaticamente
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    
 jobs:
-  deploy:
-    name: Deploy to EC2
+  CI:
     runs-on: ubuntu-latest
+    
     steps:
-    - name: Checkout the files
-      uses: actions/checkout@v3
-
-    - name: Copy files with SSH
-      uses: easingthemes/ssh-deploy@main
-      env:
-        SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-        ARGS: "-rltgoDzvO --delete"
-        SOURCE: "./src"
-        REMOTE_HOST: "ec2-54-175-171-146.compute-1.amazonaws.com"
-        REMOTE_USER: "ec2-user"
-        TARGET: "/home/ec2-user"
+      - uses: actions/checkout@v3
+    
+      - name: Docker Login
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ SEC_USER_DOCKER }}  
+          password: ${{ SEC_PASSWD_DOCKER }}
+          
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: .
+          push: true
+          tags: |
+            birazn/applinda:v1
+            birazn/applinda:latest
+            
