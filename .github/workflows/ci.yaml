@@ -23,6 +23,6 @@ jobs:
           context: .
           push: true
           tags: |
-            giovanacardi/appcardi:v2
+            giovanacardi/appcardi:v3
             giovanacardi/appcardi:latest
             
