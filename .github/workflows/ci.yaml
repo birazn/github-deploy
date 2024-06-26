@@ -23,6 +23,6 @@ jobs:
           context: .
           push: true
           tags: |
-            birazn/applinda:v2.1
+            birazn/applinda:v2.2
             birazn/applinda:latest
             
